@@ -23,6 +23,7 @@
         const ctx = canvas.getContext("2d");
         const gridSize = 20;
         const tileCount = canvas.width / gridSize;
+        const gameLoop = setInterval(moveSnake, 150);
 
         // ===== INITIAL STATE =====
         let snake = [
@@ -67,6 +68,7 @@
 
             // check for collision with walls
             if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                clearInterval(gameLoop); // stop the game loop
                 alert("Game Over! You hit the wall.");
                 document.location.reload(); // reload the page to restart the game
                 return;
@@ -74,6 +76,7 @@
 
             // check for collision with itself
             if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                clearInterval(gameLoop); // stop the game loop
                 alert("Game Over! You hit yourself.");
                 document.location.reload(); // reload the page to restart the game
                 return;
@@ -90,8 +93,6 @@
                 drawGame(); // redraw the game after moving the snake
             }
         }
-
-        setInterval(moveSnake, 150); // move the snake every 150 milliseconds
 
         // event listener for keyboard input to change the direction of the snake
         document.addEventListener("keydown", (event) => {
