@@ -72,6 +72,13 @@
                 return;
             }
 
+            // check for collision with itself
+            if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                alert("Game Over! You hit yourself.");
+                document.location.reload(); // reload the page to restart the game
+                return;
+            }
+
             snake.unshift(head); // add the new head to the front of the snake
 
             if (head.x === food.x && head.y === food.y) { // eating the food
