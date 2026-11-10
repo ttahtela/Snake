@@ -64,8 +64,15 @@
             const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
 
             snake.unshift(head); // add the new head to the front of the snake
-            snake.pop(); // remove the last segment of the snake to maintain its length
-            drawGame(); // redraw the game after moving the snake
+
+            if (head.x === food.x && head.y === food.y) { // eating the food
+                score++; // increment the score
+                food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) }; // generate new food position
+                drawGame(); // redraw the game after eating the food, don't remove the last segment of the snake to grow it
+            } else { // not eating the food
+                snake.pop(); // remove the last segment of the snake to maintain its length
+                drawGame(); // redraw the game after moving the snake
+            }
         }
 
         setInterval(moveSnake, 150); // move the snake every 150 milliseconds
