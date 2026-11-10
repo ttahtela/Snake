@@ -31,7 +31,7 @@
         ];
         let direction = { x: 1, y: 0 };
         let nextDirection = { x: 1, y: 0 };
-        let food = { x: 15, y: 15 };
+        let food = generateFood();
         let score = 0;
 
         // ===== DRAWING =====
@@ -58,7 +58,7 @@
 
         drawGame();
 
-
+        // ===== GAME LOOP =====
         function moveSnake() {
             // read the current head position and calculate the new head position based on the direction
             direction = nextDirection; // update the direction to the next direction
@@ -86,7 +86,7 @@
             if (head.x === food.x && head.y === food.y) { // eating the food
                 score++; // increment the score
                 document.getElementById("score").innerText = `Score: ${score}`;
-                food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) }; // generate new food position
+                food = generateFood(); // generate new food position
                 drawGame(); // redraw the game after eating the food, don't remove the last segment of the snake to grow it
             } else { // not eating the food
                 snake.pop(); // remove the last segment of the snake to maintain its length
@@ -121,6 +121,22 @@
                     break;
             }
         });
+
+        // ===== FOOD GENERATION =====
+        function generateFood() {
+            let candidate;
+
+            do {
+                candidate = {
+                    x: Math.floor(Math.random() * tileCount),
+                    y: Math.floor(Math.random() * tileCount)
+                };
+            } while (snake.some(segment =>
+                segment.x === candidate.x && segment.y === candidate.y
+            ));
+
+            return candidate;
+        }
 
 
 
