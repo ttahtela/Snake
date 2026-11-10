@@ -14,6 +14,7 @@
 
     <h1>Snake</h1>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <p id="score">Score: 0</p>
     <p id="info"></p>
 
     <script>
@@ -23,7 +24,8 @@
         const ctx = canvas.getContext("2d");
         const gridSize = 20;
         const tileCount = canvas.width / gridSize;
-        const gameLoop = setInterval(moveSnake, 150);
+        
+        document.getElementById("score").innerText = "Score: 0";
 
         // ===== INITIAL STATE =====
         let snake = [
@@ -73,6 +75,7 @@
                 document.location.reload(); // reload the page to restart the game
                 return;
             }
+            
 
             // check for collision with itself
             if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
@@ -86,6 +89,7 @@
 
             if (head.x === food.x && head.y === food.y) { // eating the food
                 score++; // increment the score
+                document.getElementById("score").innerText = `Score: ${score}`;
                 food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) }; // generate new food position
                 drawGame(); // redraw the game after eating the food, don't remove the last segment of the snake to grow it
             } else { // not eating the food
@@ -93,6 +97,8 @@
                 drawGame(); // redraw the game after moving the snake
             }
         }
+
+        const gameLoop = setInterval(moveSnake, 150);
 
         // event listener for keyboard input to change the direction of the snake
         document.addEventListener("keydown", (event) => {
