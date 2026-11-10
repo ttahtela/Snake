@@ -58,6 +58,26 @@
 
         drawGame();
 
+
+        function moveSnake() {
+            // read the current head position and calculate the new head position based on the direction
+            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+
+            snake.unshift(head); // add the new head to the front of the snake
+            snake.pop(); // remove the last segment of the snake to maintain its length
+            drawGame(); // redraw the game after moving the snake
+        }
+
+        setInterval(moveSnake, 150); // move the snake every 150 milliseconds
+
+
+
+
+
+
+
+
+
         // ===================================
         // BUILD THE GAME FROM HERE
         // ===================================
